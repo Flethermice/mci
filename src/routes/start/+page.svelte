@@ -1,20 +1,39 @@
 <script lang="ts">
-	import WhiteBtn from '$lib/button/WhiteBtn.svelte';
-	import Center from '$lib/wrapper/Center.svelte';
+	import { goto } from '$app/navigation';
+	import WhiteBtn from '$lib/components/button/WhiteBtn.svelte';
+	import Center from '$lib/components/wrapper/Center.svelte';
 
 	let name: string;
 	let age: number;
 	let gender: Gender;
 
+	let loading: boolean = false;
+
 	function isValid(): boolean {
 		return name.length > 0 && age > 0;
 	}
 
-	function onCommit() {
+	async function onCommit() {
 		if (!isValid) {
 			alert('Bitte fülle alle Felder aus!');
 			return;
 		}
+
+		loading = true;
+
+		const res = await fetch('/api/start', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ name, age, gender })
+		});
+		if (res.status !== 200) {
+			alert('Fehler beim Speichern der Daten');
+			return;
+		}
+		loading = false;
+		goto('test1');
 	}
 </script>
 
@@ -31,7 +50,7 @@
 		<option value="male">Männlich</option>
 		<option value="female">Weiblich</option>
 		<option value="diverse">Divers</option>
-	</select>
+	</select><br />
 
-	<WhiteBtn onClick={onCommit}>Jetzt starten</WhiteBtn>
+	<WhiteBtn onClick={onCommit} disabled={loading}>Jetzt starten</WhiteBtn>
 </Center>

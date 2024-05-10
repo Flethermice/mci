@@ -1,6 +1,6 @@
 <script lang="ts">
-	import WhiteLink from '$lib/button/WhiteLink.svelte';
-	import Center from '$lib/wrapper/Center.svelte';
+	import WhiteLink from '$lib/components/button/WhiteLink.svelte';
+	import Center from '$lib/components/wrapper/Center.svelte';
 </script>
 
 <Center>
@@ -13,5 +13,5 @@
 		<li>Die Ergebnisse werden automatisch an uns übermittelt, du musst nichts weiteres tun :)</li>
 	</ol>
 
-	<WhiteLink href="start" />
+	<WhiteLink href="start">Jetzt loslegen</WhiteLink>
 </Center>
